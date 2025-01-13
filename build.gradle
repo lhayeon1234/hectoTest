@@ -1,0 +1,52 @@
+plugins {
+	id 'org.jetbrains.kotlin.jvm' version '1.9.25'
+	id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
+	id 'org.springframework.boot' version '3.4.1'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+var kotestVersion = '5.8.1'
+dependencies {
+	// Spring Boot 및 Kotlin 관련 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+	implementation 'io.projectreactor.kotlin:reactor-kotlin-extensions'
+	implementation 'org.jetbrains.kotlin:kotlin-reflect'
+	implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-reactor'
+	implementation 'org.springframework.session:spring-session-core'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// 테스트 관련 의존성
+	testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion") // Kotest Runner
+	testImplementation("io.kotest:kotest-assertions-core:$kotestVersion") // Kotest Assertions
+	testImplementation("io.kotest:kotest-framework-engine:$kotestVersion") // Kotest Framework
+	testImplementation("org.springframework.boot:spring-boot-starter-test") // Spring Boot Test
+	testImplementation("org.jetbrains.kotlin:kotlin-test") // Spring Boot Test
+	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+	// JUnit 5 플랫폼 설정은 불필요하므로 제거 가능
+	// testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.test {
+	useJUnitPlatform()
+}
+
+kotlin {
+	compilerOptions {
+		freeCompilerArgs.addAll '-Xjsr305=strict'
+	}
+}
